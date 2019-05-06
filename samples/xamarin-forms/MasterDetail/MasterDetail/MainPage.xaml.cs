@@ -14,7 +14,10 @@ namespace MasterDetail
             ViewModel = viewModel;
 
             InitializeComponent();
-
+            // I used this method to show the Menu Button on iOS when navigating,
+            // but it still does not show the Menu when navigating from side menu on iOS
+            (Detail as NavigationPage).PoppedToRoot += MainPage_PoppedToRoot;
+            
             this.WhenActivated(
                 disposables =>
                 {
@@ -37,6 +40,22 @@ namespace MasterDetail
                             })
                         .DisposeWith(disposables);
                 });
+        }
+                
+        private void MainPage_PoppedToRoot(object sender, NavigationEventArgs e)
+        {
+            Icon = (FileImageSource)ImageSource.FromFile("hamburger.png");
+            Detail.Icon = (FileImageSource)ImageSource.FromFile("hamburger.png");
+            
+            foreach (var item in Detail.Navigation.NavigationStack)
+            {
+                item.Icon = (FileImageSource)ImageSource.FromFile("hamburger.png");
+            }
+            foreach (var item in Navigation.NavigationStack)
+            {
+                item.Icon = (FileImageSource)ImageSource.FromFile("hamburger.png");
+            }
+            OnPropertyChanged("Icon");
         }
     }
 }

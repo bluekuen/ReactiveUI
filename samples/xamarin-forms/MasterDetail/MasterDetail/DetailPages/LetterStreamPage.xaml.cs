@@ -20,7 +20,21 @@ namespace MasterDetail
                     this
                         .OneWayBind(ViewModel, vm => vm.CurrentLetter, v => v.LetterLabel.Text)
                         .DisposeWith(disposables);
-                });
+                         
+                    Disposable
+                       .Create(() => handleDeactivation())
+                       .DisposeWith(disposables);
+                });                
         }
+        private void handleDeactivation()
+        {
+        //ViewModel here is null
+
+           if (ViewModel != null)
+           {
+               Debug.WriteLine("ViewModel Property is null here");
+               //ViewModel
+           }
+       }
     }
 }
